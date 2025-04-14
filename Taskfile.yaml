@@ -1,0 +1,11 @@
+version: "3"
+
+tasks:
+  up:
+    cmds:
+      - azd provision
+      - cd app && npm run build
+      - cp -r app/public app/.next/standalone/
+      - cp -r app/.next/static app/.next/standalone/.next/
+      - cd app/.next/standalone && zip -qr ../../../package.zip .
+      - azd deploy app --from-package package.zip
